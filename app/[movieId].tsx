@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors';
 import { getMovieDetails } from '@/services/movies';
 import { useLocalSearchParams } from 'expo-router';
+import { Genre, Movie } from '@/types/movie';
+import MovieNotFound from '@/components/shared/MovieNotFound';
 
 export default function SingleMovie() {
-  const [movie, setMovie] = useState<any>(null)
+  const [movie, setMovie] = useState<Partial<Movie>>();
   const [loading, setLoading] = useState(true)
 
   const { movieId } = useLocalSearchParams()
@@ -39,7 +41,7 @@ export default function SingleMovie() {
   if (!movie) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Movie not found</Text>
+       <MovieNotFound />
       </SafeAreaView>
     )
   }
@@ -63,7 +65,7 @@ export default function SingleMovie() {
         <View style={styles.infos}>
           <View style={styles.title}>
             <Text style={styles.text}>{movie.title}</Text>
-            <Text style={{ color: Colors.light.text }}>{movie.release_date.split('-')[0]} - {convertTime(movie.runtime)}</Text>
+            <Text style={{ color: Colors.light.text }}>{movie?.release_date?.split('-')[0] ?? "2023"} - {convertTime(movie?.runtime ?? 120)}</Text>
           </View>
 
           <ScrollView
@@ -73,9 +75,9 @@ export default function SingleMovie() {
           >
             <View style={styles.buttons}>
               {
-                movie.genres.map((genre: any) => (
-                  <View style={styles.buttonView}>
-                    <Text style={{ color: 'white' }} key={genre.id}>{genre.name}</Text>
+                movie.genres && movie.genres.map((genre: Genre) => (
+                  <View key={genre.id} style={styles.buttonView}>
+                    <Text style={{ color: 'white' }} >{genre.name}</Text>
                   </View>
                 ))
               }

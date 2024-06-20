@@ -4,9 +4,10 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Colors } from '@/constants/Colors'
 import MovieCard from './MovieCard'
+import { Movie } from '@/types/movie'
 
 type MoviesListProps = {
-  movies?: any[],
+  movies?: Movie[],
   title?: string,
 }
 
@@ -27,7 +28,7 @@ const MoviesList = ({ movies, title }: MoviesListProps) => {
       >
         <View style={styles.cardContainer}>
           {movies?.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </View>
       </ScrollView>

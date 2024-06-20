@@ -2,9 +2,10 @@ import { StyleSheet, Text, SafeAreaView, View, Image, ImageBackground, Button, A
 import { Colors } from '@/constants/Colors';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Link } from 'expo-router';
+import { Movie } from '@/types/movie';
 
 type MovieCardProps = {
-  movie: any
+  movie: Movie
 }
 const MovieCard = ({ movie }: MovieCardProps) => {
 

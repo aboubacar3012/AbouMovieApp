@@ -2,8 +2,9 @@ import { StyleSheet, Text, SafeAreaView, View, Image, ImageBackground, Button, A
 import { Colors } from '@/constants/Colors';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { useRouter } from 'expo-router';
+import { Movie } from '@/types/movie';
 type HeroCardProps = {
-  movie: any
+  movie: Movie;
 }
 const HeroCard = ({ movie }: HeroCardProps) => {
   const router = useRouter();
