@@ -3,13 +3,20 @@ import { Colors } from '@/constants/Colors';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Link } from 'expo-router';
 
-const MovieCard = () => {
+type MovieCardProps = {
+  movie: any
+}
+const MovieCard = ({ movie }: MovieCardProps) => {
+
+  if (!movie) {
+    return null;
+  }
   return (
-    <Link href="/12343434">
+    <Link href={`/${movie.id}`}>
       <Image
         style={styles.image}
         source={{
-          uri: 'https://i.ebayimg.com/images/g/P60AAOSwyspc7CNL/s-l1200.jpg'
+          uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
         }}
       />
     </Link>

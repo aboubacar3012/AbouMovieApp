@@ -5,27 +5,30 @@ import React from 'react'
 import { Colors } from '@/constants/Colors'
 import MovieCard from './MovieCard'
 
-const MoviesList = () => {
+type MoviesListProps = {
+  movies?: any[],
+  title?: string,
+}
+
+const MoviesList = ({ movies, title }: MoviesListProps) => {
+
+  if (!movies) {
+    return null
+  }
   return (
     <View
       style={styles.container}
     >
-      <Text style={styles.text}>Films</Text>
+      <Text style={styles.text}>{title}</Text>
       <ScrollView
         horizontal
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.cardContainer}>
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
+          {movies?.map((movie) => (
+            <MovieCard movie={movie} />
+          ))}
         </View>
       </ScrollView>
     </View>

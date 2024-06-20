@@ -1,14 +1,20 @@
 import { StyleSheet, Text, SafeAreaView, View, Image, ImageBackground, Button, Alert } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import { useRouter } from 'expo-router';
+type HeroCardProps = {
+  movie: any
+}
+const HeroCard = ({ movie }: HeroCardProps) => {
+  const router = useRouter();
 
-const HeroCard = () => {
+  if(!movie) return null;
   return (
     <View style={styles.heroContent}>
       <Image
         style={styles.image}
         source={{
-          uri: 'https://i.ebayimg.com/images/g/P60AAOSwyspc7CNL/s-l1200.jpg'
+          uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
         }}
       />
       <View style={styles.buttons}>
@@ -18,7 +24,7 @@ const HeroCard = () => {
           <Button
             color={Colors.light.text}
             title="Lecture"
-            onPress={() => Alert.alert('Simple Button pressed')}
+            onPress={() => router.push(`/${movie.id}`)}
           />
         </View>
         <View style={styles.buttonView}>
@@ -26,7 +32,7 @@ const HeroCard = () => {
           <Button
             color={Colors.light.text}
             title="Détails"
-            onPress={() => Alert.alert('Simple Button pressed')}
+            onPress={() => router.push(`/${movie.id}`)}
           />
         </View>
       </View>
@@ -46,6 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 20,
+    padding: 10,
   },
   image: {
     height: 350,
@@ -65,6 +72,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 5,
     borderRadius: 5,
-    marginVertical: 10,
+    marginTop: 10,
   },
 });

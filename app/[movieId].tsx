@@ -1,8 +1,50 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, Button, Alert } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors';
+import { getMovieDetails } from '@/services/movies';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function SingleMovie() {
+  const [movie, setMovie] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  const { movieId } = useLocalSearchParams()
+
+  // Movie details
+  useEffect(() => {
+    getMovieDetails(Number(movieId)).then((res) => {
+      setMovie(res);
+      setLoading(false);
+    }, (err) => {
+      Alert.alert(err);
+    }
+    );
+  }, []);
+
+  const convertTime = (time: number) => {
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+    return `${hours}h ${minutes}min`;
+  }
+
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    )
+  }
+
+  if (!movie) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text>Movie not found</Text>
+      </SafeAreaView>
+    )
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -13,15 +55,15 @@ export default function SingleMovie() {
           <Image
             style={styles.image}
             source={{
-              uri: 'https://i.ebayimg.com/images/g/P60AAOSwyspc7CNL/s-l1200.jpg'
+              uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
             }}
           />
         </View>
 
         <View style={styles.infos}>
           <View style={styles.title}>
-            <Text style={styles.text}>Titre du film</Text>
-            <Text style={{ color: Colors.light.text }}>2021 - 1h 30min</Text>
+            <Text style={styles.text}>{movie.title}</Text>
+            <Text style={{ color: Colors.light.text }}>{movie.release_date.split('-')[0]} - {convertTime(movie.runtime)}</Text>
           </View>
 
           <ScrollView
@@ -30,42 +72,21 @@ export default function SingleMovie() {
             showsHorizontalScrollIndicator={false}
           >
             <View style={styles.buttons}>
-              <View style={styles.buttonView}>
-                <Button
-                  color={Colors.light.text}
-                  title="Comedy"
-                />
-              </View>
-              <View style={styles.buttonView}>
-                <Button
-                  color={Colors.light.text}
-                  title="Crime"
-                />
-              </View>
-              <View style={styles.buttonView}>
-                <Button
-                  color={Colors.light.text}
-                  title="Crime"
-                />
-              </View>
-              <View style={styles.buttonView}>
-                <Button
-                  color={Colors.light.text}
-                  title="Crime"
-                />
-              </View>
+              {
+                movie.genres.map((genre: any) => (
+                  <View style={styles.buttonView}>
+                    <Text style={{ color: 'white' }} key={genre.id}>{genre.name}</Text>
+                  </View>
+                ))
+              }
+
             </View>
           </ScrollView>
 
           <Text style={styles.synospisTitle}>Synopsis</Text>
           <ScrollView horizontal={false}>
             <Text style={styles.synopsisContent}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Nulla ac libero sit amet libero aliquet aliquam. Proin sit amet purus id libero fermentum aliquam.
-              Nullam nec nunc nec purus tincidunt tincidunt nec vel libero. Nulla facilisi.
-              Sed auctor, mi et ultricies facilisis, odio libero dictum nunc, nec ultricies felis nunc vel purus.
-              Nulla facilisi. Sed auctor, mi et ultricies facilisis, odio libero dictum nunc, nec ultricies felis nunc vel purus.
-              Nulla facilisi. Sed auctor, mi et ultricies facilisis, odio libero dictum nunc, nec ultricies felis nunc vel purus. Nulla facilisi. Sed auctor, mi et ultricies facilisis, odio libero dictum nunc, nec ultricies felis nunc vel purus.
+              {movie.overview}
             </Text>
           </ScrollView>
         </View>
@@ -86,7 +107,7 @@ const styles = StyleSheet.create({
   },
   heroContent: {
     margin: "auto",
-    width: '90%',
+    width: '85%',
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 10,
@@ -95,11 +116,15 @@ const styles = StyleSheet.create({
     height: 400,
     width: '100%',
     borderRadius: 30,
+    // cover
+    resizeMode: 'stretch',
   },
   text: {
+    width: '100%',
     color: Colors.light.text,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '500',
+    paddingVertical: 5,
   },
   infos: {
     paddingHorizontal: 20,
@@ -107,7 +132,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
-    gap: 10
+    gap: 5
   },
   buttonView: {
     color: 'white',
@@ -116,14 +141,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.light.backgroundSecondary,
     paddingHorizontal: 20,
-    paddingVertical: 2,
+    paddingVertical: 8,
     borderRadius: 15,
     marginVertical: 10,
   },
   title: {
-    flexDirection: 'row',
-    justifyContent: "space-between",
-    alignItems: "center"
   },
   synospisTitle: {
     color: Colors.light.text,
@@ -134,7 +156,7 @@ const styles = StyleSheet.create({
   synopsisContent: {
     color: Colors.light.text,
     fontSize: 15,
-    marginVertical: 10,
+    marginVertical: 5,
   }
 
 });

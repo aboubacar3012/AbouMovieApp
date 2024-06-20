@@ -33,7 +33,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="[movieId]" options={{
-          headerBackTitle: 'Rétour',
+          headerBackTitle: 'Retour',
           headerTintColor: Colors.light.text,
           headerTitle: '',
           headerStyle: {
