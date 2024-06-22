@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const basicUrl = 'https://api.themoviedb.org/3/movie';
 const options = 'language=fr-FR&page=1';
-const authorization = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDU1NDY4ZTEyYTdkMjc2ODQ5ZmE1OGVmZTc0N2ExYSIsInN1YiI6IjYyYzY4MjVmNDQ3ZjljMDA2OTUyYzgyMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Zb7WdCHbSjMEsJgeZONjpu1lkRehZeQ9AjvowCMv4D4'
+const authorization = ''
 
 
 // now_playing
