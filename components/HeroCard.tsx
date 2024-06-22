@@ -29,10 +29,10 @@ const HeroCard = ({ movie }: HeroCardProps) => {
           />
         </View>
         <View style={styles.buttonView}>
-          <TabBarIcon name="eye" color="white" />
+          <TabBarIcon name="plus" color="white" />
           <Button
             color={Colors.light.text}
-            title="Détails"
+            title="Ma liste"
             onPress={() => router.push(`/${movie.id}`)}
           />
         </View>
@@ -47,18 +47,21 @@ export default HeroCard;
 const styles = StyleSheet.create({
   heroContent: {
     margin: "auto",
-    borderRadius: 10,
     backgroundColor: Colors.light.backgroundSecondary,
     width: '85%',
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 20,
-    padding: 10,
+    paddingBottom: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   image: {
     height: 350,
     width: '100%',
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    resizeMode: 'stretch',
   },
   buttons: {
     flexDirection: "row",

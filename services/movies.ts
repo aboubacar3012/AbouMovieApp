@@ -79,3 +79,28 @@ export const getGenres = async () => {
   });
   return response.data;
 }
+
+// search
+export const searchMovies = async (query: string) => {
+  const url = `https://api.themoviedb.org/3/search/movie?query=${query}&${options}`;
+  const response = await axios.get(url, {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: authorization
+    },
+  });
+  return response.data;
+}
+// similar
+export const getSimilarMovies = async (id: number) => {
+  const url = `${basicUrl}/${id}/similar?${options}`;
+  const response = await axios.get(url, {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: authorization
+    },
+  });
+  return response.data;
+}

@@ -9,10 +9,11 @@ import { Movie } from '@/types/movie'
 type MoviesListProps = {
   movies?: Movie[],
   title?: string,
+  scrollHorizontal?: boolean,
 }
 
 const MoviesList = ({ movies, title }: MoviesListProps) => {
-
+  const size = title?.includes('En ce moment') ? 'large' : 'small'
   if (!movies) {
     return null
   }
@@ -28,7 +29,7 @@ const MoviesList = ({ movies, title }: MoviesListProps) => {
       >
         <View style={styles.cardContainer}>
           {movies?.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard size={size} key={movie.id} movie={movie} />
           ))}
         </View>
       </ScrollView>

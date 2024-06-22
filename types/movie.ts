@@ -7,6 +7,7 @@ export type Movie = {
   release_date: string;
   runtime: number;
   genres: Genre[];
+  vote_average: number;
 };
 
 export type Genre = {

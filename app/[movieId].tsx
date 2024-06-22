@@ -5,6 +5,7 @@ import { getMovieDetails } from '@/services/movies';
 import { useLocalSearchParams } from 'expo-router';
 import { Genre, Movie } from '@/types/movie';
 import MovieNotFound from '@/components/shared/MovieNotFound';
+import SimilarMovies from '@/components/Views/SimilarMovies';
 
 export default function SingleMovie() {
   const [movie, setMovie] = useState<Partial<Movie>>();
@@ -41,7 +42,7 @@ export default function SingleMovie() {
   if (!movie) {
     return (
       <SafeAreaView style={styles.container}>
-       <MovieNotFound />
+        <MovieNotFound />
       </SafeAreaView>
     )
   }
@@ -67,7 +68,6 @@ export default function SingleMovie() {
             <Text style={styles.text}>{movie.title}</Text>
             <Text style={{ color: Colors.light.text }}>{movie?.release_date?.split('-')[0] ?? "2023"} - {convertTime(movie?.runtime ?? 120)}</Text>
           </View>
-
           <ScrollView
             horizontal
             showsVerticalScrollIndicator={false}
@@ -91,6 +91,7 @@ export default function SingleMovie() {
               {movie.overview}
             </Text>
           </ScrollView>
+          <SimilarMovies movieId={Number(movieId)} />
         </View>
 
       </ScrollView>
