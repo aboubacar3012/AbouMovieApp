@@ -64,6 +64,17 @@ export default function SearchScreen() {
           search.length === 0 && (
             <>
               <View style={{ padding: 10, flexDirection: "column", alignItems: "center", justifyContent: 'center' }}>
+                <Text style={{ fontSize: 30, fontWeight: '500', color: 'gray', textAlign: 'center' }}>
+                  Entrez un titre pour commencer la recherche.
+                </Text>
+              </View>
+            </>
+          )
+        }
+        {
+          search.length > 0 && movies.length === 0 && (
+            <>
+              <View style={{ padding: 10, flexDirection: "column", alignItems: "center", justifyContent: 'center' }}>
                 <Text style={{ fontSize: 30, fontWeight: '500', color: Colors.light.text, textAlign: 'center' }}>
                   Désolé ! Nous n'avons pas ce titre.
                 </Text>
@@ -75,19 +86,21 @@ export default function SearchScreen() {
           )
         }
         {
-          search.length > 0 && (
+         search.length > 0 && movies.length > 0 && (
             <ScrollView
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              <Text style={styles.text}>Résultats de recherche</Text>
-             <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems:"center", justifyContent: 'space-around', padding: 10 }}>
-             {
-                movies.map((movie: Movie) => (
-                  <MovieCard key={movie.id} movie={movie} size="small" />
-                ))
-              }
-             </View>
+              <Text style={[styles.text, {marginLeft: 22}]}>
+                {movies.length} films trouvés
+              </Text>
+              <View style={styles.movieList}>
+                {
+                  movies.map((movie: Movie) => (
+                    <MovieCard key={movie.id} movie={movie} size="small" />
+                  ))
+                }
+              </View>
             </ScrollView>
           )
         }
@@ -105,9 +118,17 @@ const styles = StyleSheet.create({
     overflow: 'scroll'
   },
   text: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '500',
     color: Colors.light.text,
   },
+  movieList: {
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    alignItems: "center", 
+    justifyContent: 'space-around', 
+    padding: 10,
+    gap: 15
+  }
 
 });
